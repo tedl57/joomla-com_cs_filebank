@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS `#__cs_filebank_files` (
+`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+`by_username` VARCHAR(32)  DEFAULT NULL,
+`date_added` DATETIME DEFAULT NULL,
+`idate` DATETIME DEFAULT NULL,
+`last_updated` DATETIME DEFAULT NULL,
+`icategory` VARCHAR(255)  DEFAULT NULL,
+`iname` VARCHAR(255)  DEFAULT NULL,
+`isize` INT NOT NULL DEFAULT '0',
+`itype` VARCHAR(32)  DEFAULT NULL,
+`ictype` VARCHAR(32)  DEFAULT NULL,
+`iaccess` INT NOT NULL DEFAULT '0',
+`archived` INT NOT NULL DEFAULT '0',
+`email_notified` VARCHAR(255)  DEFAULT NULL,
+`idescription` LONGTEXT,
+PRIMARY KEY (`id`)
+) DEFAULT COLLATE=utf8mb4_unicode_ci;
