@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CS_FILEBANK_TITLE_LIST_VIEW_FILEBANKFILES" option="View">
         <message>
-                        <![CDATA[COM_CS_FILEBANK_TITLE_LIST_VIEW_FILEBANKFILES_DESC]]>
+                        File sharing for website users.
         </message>
 	</layout>
 </metadata>
