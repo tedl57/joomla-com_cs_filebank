@@ -98,4 +98,15 @@ class Cs_filebankHelpersCs_filebank
 
         return $permission;
     }
+    
+    /**
+     * Gets the HTML to render the inital heading for the component
+     *
+     * @return  string
+     */
+    public static function getComponentHeading()
+    {
+   		$hding = "<h3>File Bank: <a href='/index.php?option=com_cs_filebank'>Search</a> or <a href='/index.php?option=com_cs_filebank&view=uploads'>Upload</a></h3>";
+   		return $hding;
+    }
 }
