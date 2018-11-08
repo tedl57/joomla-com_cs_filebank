@@ -13,9 +13,15 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
-
+ 
 $user       = JFactory::getUser();
 $userId     = $user->get('id');
+
+if ( $userId == 0 )
+{
+	echo "You must login to use this application.";
+	return;
+}
 $listOrder  = $this->state->get('list.ordering');
 $listDirn   = $this->state->get('list.direction');
 $canCreate  = $user->authorise('core.create', 'com_cs_filebank') && file_exists(JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'forms' . DIRECTORY_SEPARATOR . 'filebankfileform.xml');
@@ -23,12 +29,29 @@ $canEdit    = $user->authorise('core.edit', 'com_cs_filebank') && file_exists(JP
 $canCheckin = $user->authorise('core.manage', 'com_cs_filebank');
 $canChange  = $user->authorise('core.edit.state', 'com_cs_filebank');
 $canDelete  = $user->authorise('core.delete', 'com_cs_filebank');
+
+$hding        = Cs_filebankHelpersCs_filebank::getComponentHeading();
+
+echo $hding;
+
+//var_dump($_POST);
+$jinput = JFactory::getApplication()->input;
+$filter = $jinput->post->get('filter', array(), 'array');
+$search_str = isset($filter["search"]) ? $filter["search"] : "";
+if ( $search_str != "" )
+{
+	echo "<br />search_str=$search_str<br />";
+}
+
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post"
       name="adminForm" id="adminForm">
 
 	<?php echo JLayoutHelper::render('default_filter', array('view' => $this), dirname(__FILE__)); ?>
+	
+<?php if ( $search_str != "" ) : ?>
+
 	<table class="table table-striped" id="filebankfileList">
 		<thead>
 		<tr>
@@ -147,6 +170,9 @@ $canDelete  = $user->authorise('core.delete', 'com_cs_filebank');
 		</tbody>
 	</table>
 
+	
+<?php endif; ?>
+				
 	<?php if ($canCreate) : ?>
 		<a href="<?php echo JRoute::_('index.php?option=com_cs_filebank&task=filebankfileform.edit&id=0', false, 0); ?>"
 		   class="btn btn-success btn-small"><i
