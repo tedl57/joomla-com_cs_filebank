@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+       <fieldset name="uploadfile" label="Upload a file">
+            <field
+               type="file"
+               name="iname"
+               id="iname"
+               label="Upload File"
+               required="true"
+               description="Upload a file"
+               size="20"
+              />
+            <field
+               type="list"
+               name="icategory"
+               id="icategory"
+               label="Category"
+               required="true"
+               description="Category of the file">
+               	<option value="">-Please Select-</option>     
+                <option value="-New Category-">-New Category-</option>
+            </field>
+            <field
+               type="text"
+               name="newcategory"
+               id="newcategory"
+               label="New Category"
+               description="New file category"
+               size="50"
+              />
+            <field
+               type="checkbox"
+               name="iaccess"
+               id="iaccess"
+               label="Public Access"
+                description="File is publically accessible"
+                value="1"
+               />
+            <field
+                type="textarea"
+                name="idescription"
+                id="idescription"
+                label="File Description"
+                description="Description of file"
+                required="true"
+                cols="80"
+                rows="5"
+             /> 
+        </fieldset>        
+</form>
