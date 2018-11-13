@@ -50,6 +50,10 @@ class Cs_filebankViewUploads extends JViewLegacy
 			throw new Exception(implode("\n", $errors));
 		}
 
+		// load jquery if not already loaded
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'components/com_cs_filebank/assets/js/jquery.validate.min.js', false, false);
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}

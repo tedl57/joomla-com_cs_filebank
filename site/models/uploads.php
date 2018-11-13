@@ -154,4 +154,20 @@ class Cs_filebankModelUploads extends JModelList
 		$date = str_replace('/', '-', $date);
 		return (date_create($date)) ? Factory::getDate($date)->format("Y-m-d") : null;
 	}
+	
+	public function getForm($data = array(), $loadData = true)
+	{
+		require_once JPATH_COMPONENT.'/helpers/cs_filebank.php';
+	
+		$app = JFactory::getApplication();
+		$xmlfilename = $app->input->get('view');
+	
+		// get the proper form xml file
+		$form = $this->loadForm('com_cs_filebank.uploads', $xmlfilename, array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form)) {
+			return false;
+		}
+	
+		return $form;
+	}
 }

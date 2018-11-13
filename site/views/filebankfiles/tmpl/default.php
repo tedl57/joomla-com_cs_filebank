@@ -22,6 +22,19 @@ if ( $userId == 0 )
 	echo "You must login to use this application.";
 	return;
 }
+
+// check if an item is being viewed or downloaded
+$jinput = JFactory::getApplication()->input;
+$actid = $jinput->get->get('actid', 0, 'int');
+$actitem = urldecode($jinput->get->get('actitem', "", 'raw'));  // xxxxxxxxxxxxxxx try path???
+slklkjlj
+
+if ( $actid != 0 && $actitem != "" && ( $action == "view" || $action == "download" ))
+{
+	doView($actid,$actitem,$action == "download");
+	die;
+}
+
 $listOrder  = $this->state->get('list.ordering');
 $listDirn   = $this->state->get('list.direction');
 $canCreate  = $user->authorise('core.create', 'com_cs_filebank') && file_exists(JPATH_COMPONENT . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . 'forms' . DIRECTORY_SEPARATOR . 'filebankfileform.xml');
@@ -34,156 +47,22 @@ $hding        = Cs_filebankHelpersCs_filebank::getComponentHeading();
 
 echo $hding;
 
-//var_dump($_POST);
-$jinput = JFactory::getApplication()->input;
+// check for the special commandline keyword "showid"
+$showid = $jinput->get->get('showid', 0, 'int');
+if ( $showid != 0 )
+	return showId( $showid );
+
 $filter = $jinput->post->get('filter', array(), 'array');
 $search_str = isset($filter["search"]) ? $filter["search"] : "";
 if ( $search_str != "" )
-{
-	echo "<br />search_str=$search_str<br />";
-}
-
+	return doSearch( $search_str );
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post"
       name="adminForm" id="adminForm">
 
 	<?php echo JLayoutHelper::render('default_filter', array('view' => $this), dirname(__FILE__)); ?>
-	
-<?php if ( $search_str != "" ) : ?>
-
-	<table class="table table-striped" id="filebankfileList">
-		<thead>
-		<tr>
-			<?php if (isset($this->items[0]->state)): ?>
-				
-			<?php endif; ?>
-
-							<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ID', 'a.id', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_BY_USERNAME', 'a.by_username', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_IDATE', 'a.idate', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ICATEGORY', 'a.icategory', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_INAME', 'a.iname', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ISIZE', 'a.isize', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ITYPE', 'a.itype', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ICTYPE', 'a.ictype', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_IACCESS', 'a.iaccess', $listDirn, $listOrder); ?>
-				</th>
-				<th class=''>
-				<?php echo JHtml::_('grid.sort',  'COM_CS_FILEBANK_FILEBANKFILES_IDESCRIPTION', 'a.idescription', $listDirn, $listOrder); ?>
-				</th>
-
-
-							<?php if ($canEdit || $canDelete): ?>
-					<th class="center">
-				<?php echo JText::_('COM_CS_FILEBANK_FILEBANKFILES_ACTIONS'); ?>
-				</th>
-				<?php endif; ?>
-
-		</tr>
-		</thead>
-		<tfoot>
-		<tr>
-			<td colspan="<?php echo isset($this->items[0]) ? count(get_object_vars($this->items[0])) : 10; ?>">
-				<?php echo $this->pagination->getListFooter(); ?>
-			</td>
-		</tr>
-		</tfoot>
-		<tbody>
-		<?php foreach ($this->items as $i => $item) : ?>
-			<?php $canEdit = $user->authorise('core.edit', 'com_cs_filebank'); ?>
-
-			
-			<tr class="row<?php echo $i % 2; ?>">
-
-				<?php if (isset($this->items[0]->state)) : ?>
-					<?php $class = ($canChange) ? 'active' : 'disabled'; ?>
-					
-				<?php endif; ?>
-
-								<td>
-
-					<?php echo $item->id; ?>
-				</td>
-				<td>
-
-					<?php echo $item->by_username; ?>
-				</td>
-				<td>
-
-					<?php echo $item->idate; ?>
-				</td>
-				<td>
-
-					<?php echo $item->icategory; ?>
-				</td>
-				<td>
-
-					<?php echo $item->iname; ?>
-				</td>
-				<td>
-
-					<?php echo $item->isize; ?>
-				</td>
-				<td>
-
-					<?php echo $item->itype; ?>
-				</td>
-				<td>
-
-					<?php echo $item->ictype; ?>
-				</td>
-				<td>
-
-					<?php echo $item->iaccess; ?>
-				</td>
-				<td>
-
-					<?php echo $item->idescription; ?>
-				</td>
-
-
-								<?php if ($canEdit || $canDelete): ?>
-					<td class="center">
-					</td>
-				<?php endif; ?>
-
-			</tr>
-		<?php endforeach; ?>
-		</tbody>
-	</table>
-
-	
-<?php endif; ?>
-				
-	<?php if ($canCreate) : ?>
-		<a href="<?php echo JRoute::_('index.php?option=com_cs_filebank&task=filebankfileform.edit&id=0', false, 0); ?>"
-		   class="btn btn-success btn-small"><i
-				class="icon-plus"></i>
-			<?php echo JText::_('COM_CS_FILEBANK_ADD_ITEM'); ?></a>
-	<?php endif; ?>
-
 	<input type="hidden" name="task" value=""/>
-	<input type="hidden" name="boxchecked" value="0"/>
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
@@ -202,3 +81,147 @@ if ( $search_str != "" )
 	}
 </script>
 <?php endif; ?>
+<?php
+function showId( $id )
+{
+	$sql = "select * from #__cs_filebank_files where id=$id";
+	$db = JFactory::getDbo();
+	$db->setQuery($sql);
+	$items = $db->loadObjectList();
+	$nitems = count($items);
+	if ( $nitems == 1 )
+	{
+		echo "Showing entry \"$id\"<br /><br />";
+
+		echo Cs_filebankHelpersCs_filebank::getSearchResultFromObject( $items[0]);
+	}
+	
+}
+function doSearch( $qs )
+{
+	$nfound = 0;
+//echo "Searching for \"$qs\" ...";
+//return $nfound;
+	
+	$flds = getWordList( array( "id","by_username","idate","isize","ictype","itype","icategory","iname","iaccess","idescription"), "," );
+	$sql = "select $flds from #__cs_filebank_files where archived=0 ORDER BY idate DESC";
+	$db = JFactory::getDbo();
+	$db->setQuery($sql);
+	$items = $db->loadObjectList();
+	$nitems = count($items);
+//	echo "<br />Got $nitems records";
+
+	$matches = array();
+	foreach( $items as $row )
+	{
+		if ( ! doesMatchRecord( $row, $qs ) )
+			continue;
+	
+		$matches[] = $row;
+	}
+	showSearchResults($matches,$qs);	// show search results in Google style
+	
+	return count( $matches); 
+}
+function getWordList( $arr, $sep ) //{{{1
+{
+	$ret = "";
+	$n = count( $arr );
+	if ( $n < 1 )
+		return $ret;
+
+	for ( $i = 0 ; $i < $n - 1 ; $i++ )
+		$ret .= ( $arr[$i] . $sep );
+	$ret .= $arr[$i];
+
+	return $ret;
+}
+function doesMatchRecord( $row, $qs )// todo: move to lib (got from memdb)
+{
+	// todo: kludge
+	if ( strncmp( $qs, "fld_id_", 7  ) == 0 )
+	{
+		if ( $row["id"] == substr( $qs, 7 ) )
+			return true;
+	}
+	foreach( $row as $key => $val )
+	{
+		// exact match of a field if ( strcasecmp( $val, $qs ) == 0 )
+		if ( ! ( stristr( $val, $qs ) === FALSE ) )
+		{
+			//print "match=" .  $val . "<br>";
+			return true;
+		}
+	}
+
+	return false;
+}
+function showSearchResults( $rows, $qs )	// show search results in google style
+{
+	$nrows = count( $rows );
+
+	if ( ! $nrows )
+	{
+		echo "No matches found for " . "<span style='font-weight: bold;'>$qs</span>";
+		//todoclearSession();
+		return;
+	}
+
+	//todosaveSession( $qs );
+	if ( $nrows != 1 )
+		$suf = "es";
+
+	echo<<<EOT
+		<p>$nrows match$suf found for <span style='font-weight: bold;'>$qs</span></p>
+EOT;
+
+	foreach( $rows as $row )
+		echo Cs_filebankHelpersCs_filebank::getSearchResult( $row->id, $row->iname, $row->ictype, $row->itype, $row->idescription, $row->icategory, $row->isize, $row->by_username, $row->idate, $row->iaccess );
+}
+function doView( $actid, $actitem, $bDownload = false )
+{
+	$sql = "SELECT * FROM #__cs_filebank_files WHERE id=$actid";
+	$db = JFactory::getDbo();
+	$db->setQuery($sql);
+	$items = $db->loadObjectList();
+	if ( count($items) != 1 )
+	{
+		echo "item $actid not found in db";
+		return;
+	}
+	// check actitem matches db record
+	$actitem = stripslashes($actitem);
+
+	if ( $actitem != $items[0]->iname )
+	{
+		
+		echo "Item \"$actitem\" does not exist.";
+		return;
+	}
+	// check if the file exists
+
+	$path = Cs_filebankHelpersCs_filebank::getItemFilePath( $items[0]->id );
+
+	if ( empty( $path ) )
+	{
+		echo "Item \"$actitem\" is offline.";
+		return;
+	}
+
+	if ( $bDownload )
+	{
+		$file = $items[0]->iname;
+		header("Content-Type: application/x-download");
+		header("Content-Disposition: attachment; filename=\"$file\"");
+	}
+	else
+	{
+		header ("Content-Type: " . Cs_filebankHelpersCs_filebank::getContentType( $items[0]->itype, $items[0]->ictype ) );
+		header ("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	}
+
+	header ("Content-Length: " . $items[0]->isize );
+
+	readfile($path);
+}
+?>
