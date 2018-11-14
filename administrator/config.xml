@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <fieldset label="COM_CS_FILEBANK" name="cs_filebank">
-        <field name="param1" filter="safehtml" type="text" label="COM_CS_FILEBANK_FORM_LBL_PARAM1" description="COM_CS_FILEBANK_FORM_DESC_PARAM1" hint="COM_CS_FILEBANK_FORM_LBL_PARAM1"/>
+        <field name="private_file_storage_path" filter="safehtml" type="text" label="COM_CS_FILEBANK_FORM_LBL_PARAM_PRIVATE_FILE_STORAGE_PATH" description="COM_CS_FILEBANK_FORM_DESC_PARAM_PRIVATE_FILE_STORAGE_PATH" hint="COM_CS_FILEBANK_FORM_LBL_PARAM_PRIVATE_FILE_STORAGE_PATH" default="filebank" />
+        <field name="public_file_storage_path" filter="safehtml" type="text" label="COM_CS_FILEBANK_FORM_LBL_PARAM_PUBLIC_FILE_STORAGE_PATH" description="COM_CS_FILEBANK_FORM_DESC_PARAM_PUBLIC_FILE_STORAGE_PATH" hint="COM_CS_FILEBANK_FORM_LBL_PARAM_PUBLIC_FILE_STORAGE_PATH" default="fb" />
 
     </fieldset>
 
