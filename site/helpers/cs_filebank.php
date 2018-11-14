@@ -172,12 +172,12 @@ class Cs_filebankHelpersCs_filebank
 	private static function getStoreFolderName()
 	{
 		// get component param to determine configured place to store files
-		return JComponentHelper::getParams('com_cs_filebank')->get('private_file_storage_path');	// default is "filebank"
+		return JComponentHelper::getParams('com_cs_filebank')->get('private_file_storage_path','filebank');
 	}
 	private static function getStoreFolderLinksName()
 	{
 		// get component param to determine configured place to store links
-		return JComponentHelper::getParams('com_cs_filebank')->get('public_file_storage_path');		// default is "fb"
+		return JComponentHelper::getParams('com_cs_filebank')->get('public_file_storage_path', 'fb');
 	}
 	public static function getLinksFolderPath()
 	{
