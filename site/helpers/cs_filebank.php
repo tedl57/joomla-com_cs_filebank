@@ -265,16 +265,16 @@ class Cs_filebankHelpersCs_filebank
 		
 		return $ret;
 	}
-	private static function getItemActions( $id, $typ, $ctyp, $actitem, $public_link = false )
+	private static function getItemActions( $id, $itype, $ctyp, $actitem, $public_link = false )
 	{
-		$typ = strtolower( $typ );
+		$itype = strtolower( $itype );
 	
 		// todo: urlencode the filename???
 
 		$baseurl = "/index.php?option=com_cs_filebank&actid=$id&actitem=" . urlencode($actitem);
 		
 		// if file is viewable in the browser, make it a link
-		if ( self::isFileViewable( $typ, $ctyp ) )
+		if ( self::isFileViewable( $itype, $ctyp ) )
 		{
 			//$actitem = addslashes($actitem);
 			$url = "$baseurl&action=view";
@@ -297,12 +297,12 @@ class Cs_filebankHelpersCs_filebank
 	
 		return "$dl$vu$link$llink$email";
 	}
-	private static function isFileViewable(  $typ, $ctyp )
+	private static function isFileViewable(  $itype, $ctyp )
 	{
-		$mimetype = self::getContentType( $typ, $ctyp );
+		$mimetype = self::getContentType( $itype, $ctyp );
 		return ! empty( $mimetype );
 	}
-	public static function getContentType( $typ, $ctyp )	// mime types
+	public static function getContentType( $itype, $ctyp )	// mime types
 	{
 		//list of extensions in the first 500 isea files:
 		//NULL doc dot gif htm html jpg ksh mp3 pdf ppt qif txt xls zip
@@ -314,24 +314,24 @@ class Cs_filebankHelpersCs_filebank
 			return $ctyp;	// todo: this will mess up isfileviewable
 		}
 	
-		switch( $typ )
+		switch( $itype )
 		{
 			case "jpg":
-				$typ = "jpeg";
+				$itype = "jpeg";
 				// fall thru
 			case "jpeg":
 			case "gif":
 			case "png":
-				return "image/$typ";
+				return "image/$itype";
 			case "mp3":
-				return "audio/$typ";
+				return "audio/$itype";
 			case "htm":
-				$typ = "html";
+				$itype = "html";
 				// fall thru
 			case "html":
-				return "text/$typ";
+				return "text/$itype";
 			case "pdf":
-				return "application/$typ";
+				return "application/$itype";
 			case "css":
 			case "txt":
 			case "php":
