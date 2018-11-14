@@ -7,7 +7,7 @@
     <author>Ted Lowe</author>
     <authorEmail>lists@creativespirits.org</authorEmail>
     <authorUrl>http://www.creativespirits.org</authorUrl>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>Allows users of a website to share files.</description>
     <install> <!-- Runs on install -->
         <sql>

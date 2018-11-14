@@ -85,9 +85,6 @@ $sortFields = $this->getSortFields();
 				<?php echo JHtml::_('searchtools.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ISIZE', 'a.`isize`', $listDirn, $listOrder); ?>
 				</th>
 				<th class='left'>
-				<?php echo JHtml::_('searchtools.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ITYPE', 'a.`itype`', $listDirn, $listOrder); ?>
-				</th>
-				<th class='left'>
 				<?php echo JHtml::_('searchtools.sort',  'COM_CS_FILEBANK_FILEBANKFILES_ICTYPE', 'a.`ictype`', $listDirn, $listOrder); ?>
 				</th>
 				<th class='left'>
@@ -165,9 +162,6 @@ $sortFields = $this->getSortFields();
 				</td>				<td>
 
 					<?php echo $item->isize; ?>
-				</td>				<td>
-
-					<?php echo $item->itype; ?>
 				</td>				<td>
 
 					<?php echo $item->ictype; ?>

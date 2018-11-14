@@ -243,9 +243,9 @@ class Cs_filebankHelpersCs_filebank
 	}
 	public static function getSearchResultFromObject( $obj )
 	{
-		return self::getSearchResult( $obj->id, $obj->iname, $obj->ictype, $obj->itype, $obj->idescription, $obj->icategory, $obj->isize, $obj->by_username, $obj->idate, $obj->iaccess );
+		return self::getSearchResult( $obj->id, $obj->iname, $obj->ictype, $obj->idescription, $obj->icategory, $obj->isize, $obj->by_username, $obj->idate, $obj->iaccess );
 	}
-	public static function getSearchResult( $id, $iname, $ictype, $itype, $idescription, $icategory, $isize, $by_username, $idate, $iaccess )
+	public static function getSearchResult( $id, $iname, $ictype, $idescription, $icategory, $isize, $by_username, $idate, $iaccess )
 	{
 		// show file size in abbreviated human readable form
 		
@@ -260,23 +260,21 @@ class Cs_filebankHelpersCs_filebank
 		$ret .= "<span style='font-weight: bold;'>Size:</span> $fsz";
 		$ret .= self::getSpaces();
 		$ret .= "<span style='font-weight: bold;'>From:</span> $by_username on $idate" . "<br />";
-		$ret .= self::getItemActions( $id, $itype, $ictype, $iname, $iaccess == "1" );
+		$ret .= self::getItemActions( $id, $ictype, $iname, $iaccess == "1" );
 		$ret .= "</div></p><br />";
 		
 		return $ret;
 	}
-	private static function getItemActions( $id, $itype, $ctyp, $actitem, $public_link = false )
+	private static function getItemActions( $id, $ictype, $actitem, $public_link = false )
 	{
-		$itype = strtolower( $itype );
-	
 		// todo: urlencode the filename???
 
 		$baseurl = "/index.php?option=com_cs_filebank&actid=$id&actitem=" . urlencode($actitem);
 		
 		// if file is viewable in the browser, make it a link
-		if ( self::isFileViewable( $itype, $ctyp ) )
+		if ( self::isFileViewable( $ictype ) )
 		{
-			//$actitem = addslashes($actitem);
+			// todo: handle quotes $actitem = addslashes($actitem);
 			$url = "$baseurl&action=view";
 			$vu = "<a title='Click to View in a New Window' href='$url' onclick=\"javascript: window.open('$url','','toolbar=yes,location=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=780,height=550&'); return false\">View</a>" . self::getSpaces();
 		}
@@ -284,8 +282,6 @@ class Cs_filebankHelpersCs_filebank
 		// create download link (always possible)
 		$url = "$baseurl&action=download";
 		$dl = "<a title='Click to download a copy of this file' href='$url' onclick=\"javascript: window.open('$url','','toolbar=yes,location=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=780,height=550&'); return false\">Download</a>" . self::getSpaces();
-
-		$email = ""; // todo: idea to add back the ability to email a file - "<a title='Email a copy of this file' href='$mmuri&action=email&actid=$id'>Email</a>" . getSpaces();
 	
 		$link = "<a title='Entry for this file' href='/fb?$id'>Entry</a>" . self::getSpaces();
 		
@@ -295,47 +291,50 @@ class Cs_filebankHelpersCs_filebank
 			$llink = "<a title='Public Link for this file' href='/" . self::getStoreFolderLinksName() . "/$inameuniq'>Public Link</a>" . self::getSpaces();
 		}
 	
-		return "$dl$vu$link$llink$email";
+		return "$dl$vu$link$llink";
 	}
-	private static function isFileViewable(  $itype, $ctyp )
-	{
-		$mimetype = self::getContentType( $itype, $ctyp );
-		return ! empty( $mimetype );
+	private static function isFileViewable( $ictype )
+	{	
+		return ! empty( $ictype );	// all file types with a mimetype are technically "viewable"
 	}
-	public static function getContentType( $itype, $ctyp )	// mime types
+	public static function getContentType( $ext, $ictype )	// mime types
 	{
-		//list of extensions in the first 500 isea files:
-		//NULL doc dot gif htm html jpg ksh mp3 pdf ppt qif txt xls zip
-		//
-		// todo: support application/zip
+		// list of extensions in the first 500 isea files:
+		// NULL doc dot gif htm html jpg ksh mp3 pdf ppt qif txt xls zip
 	
-		if ( ! empty( $ctyp ) )
+
+		if ( ! empty( $ictype ) )
 		{
-			return $ctyp;	// todo: this will mess up isfileviewable
+			// prefer given mimetype
+			return $ictype;
 		}
-	
-		switch( $itype )
+		
+		$ext = strlower( $ext );
+		
+		switch( $ext )
 		{
 			case "jpg":
-				$itype = "jpeg";
+				$ext = "jpeg";
 				// fall thru
 			case "jpeg":
 			case "gif":
 			case "png":
-				return "image/$itype";
+				return "image/$ext";
 			case "mp3":
-				return "audio/$itype";
+				return "audio/$ext";
 			case "htm":
-				$itype = "html";
+				$ext = "html";
 				// fall thru
 			case "html":
-				return "text/$itype";
+				return "text/$ext";
 			case "pdf":
-				return "application/$itype";
+				return "application/$ext";
 			case "css":
 			case "txt":
 			case "php":
 				return "text/plain";
+			case "zip":
+				return "application/zip";
 			default:
 				return "";	// todo ?
 		}

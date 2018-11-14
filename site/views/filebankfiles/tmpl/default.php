@@ -26,8 +26,8 @@ if ( $userId == 0 )
 // check if an item is being viewed or downloaded
 $jinput = JFactory::getApplication()->input;
 $actid = $jinput->get->get('actid', 0, 'int');
-$actitem = urldecode($jinput->get->get('actitem', "", 'raw'));  // xxxxxxxxxxxxxxx try path???
-slklkjlj
+$actitem = urldecode($jinput->get->get('actitem', "", 'raw'));  // still todo: xxxxxxxxxxxxxxx try path???
+$action = $jinput->get->get('action', 0, 'cmd');
 
 if ( $actid != 0 && $actitem != "" && ( $action == "view" || $action == "download" ))
 {
@@ -103,7 +103,7 @@ function doSearch( $qs )
 //echo "Searching for \"$qs\" ...";
 //return $nfound;
 	
-	$flds = getWordList( array( "id","by_username","idate","isize","ictype","itype","icategory","iname","iaccess","idescription"), "," );
+	$flds = getWordList( array( "id","by_username","idate","isize","ictype","icategory","iname","iaccess","idescription"), "," );
 	$sql = "select $flds from #__cs_filebank_files where archived=0 ORDER BY idate DESC";
 	$db = JFactory::getDbo();
 	$db->setQuery($sql);
@@ -136,14 +136,16 @@ function getWordList( $arr, $sep ) //{{{1
 
 	return $ret;
 }
-function doesMatchRecord( $row, $qs )// todo: move to lib (got from memdb)
+function doesMatchRecord( $row, $qs ) // idea: could be in trl/lib (got from memdb)
 {
-	// todo: kludge
+	// to done: kludge from old com_fb
+	/*
 	if ( strncmp( $qs, "fld_id_", 7  ) == 0 )
 	{
 		if ( $row["id"] == substr( $qs, 7 ) )
 			return true;
 	}
+	*/
 	foreach( $row as $key => $val )
 	{
 		// exact match of a field if ( strcasecmp( $val, $qs ) == 0 )
@@ -176,7 +178,7 @@ function showSearchResults( $rows, $qs )	// show search results in google style
 EOT;
 
 	foreach( $rows as $row )
-		echo Cs_filebankHelpersCs_filebank::getSearchResult( $row->id, $row->iname, $row->ictype, $row->itype, $row->idescription, $row->icategory, $row->isize, $row->by_username, $row->idate, $row->iaccess );
+		echo Cs_filebankHelpersCs_filebank::getSearchResult( $row->id, $row->iname, $row->ictype, $row->idescription, $row->icategory, $row->isize, $row->by_username, $row->idate, $row->iaccess );
 }
 function doView( $actid, $actitem, $bDownload = false )
 {
@@ -216,7 +218,7 @@ function doView( $actid, $actitem, $bDownload = false )
 	}
 	else
 	{
-		header ("Content-Type: " . Cs_filebankHelpersCs_filebank::getContentType( $items[0]->itype, $items[0]->ictype ) );
+		header ("Content-Type: " . Cs_filebankHelpersCs_filebank::getContentType( "", $items[0]->ictype ) );
 		header ("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	}
 

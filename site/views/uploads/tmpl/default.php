@@ -205,7 +205,6 @@ array(2) {
 	$file_obj->iname = $uploaded_file["name"];
 	$file_obj->isize = $uploaded_file["size"];
 	$file_obj->ictype = $uploaded_file["type"];
-	$file_obj->itype = "itype"; 	// todo: xxxxxxxxxxxxxxx
 	$file_obj->idescription = $data["idescription"];
 	$file_obj->icategory = $data["icategory"];
 	$file_obj->iaccess = $iaccess;
@@ -221,45 +220,6 @@ array(2) {
 		return onUploadComplete( UploadResults::Error9 );
 
 //	$msg .= "<br />record inserted with id# " . $file_obj->id;
-
-/* itype has these distinct 8 values as of 11/11/18 (458 files):
-NULL
-doc
-gif
-jpg
-mp3
-pdf
-txt
-zip
-
-	ctype has these 26:
-NULL
-application/binary
-application/download
-application/msword
-application/octet
-application/octet-stream
-application/octetstream
-application/pdf
-application/vnd.ms-powerpoint
-application/vnd.oasis.opendocume
-application/vnd.openxmlformats-o
-application/x-pdf
-application/x-zip
-application/x-zip-compressed
-application/zip
-binary/octet-stream
-image/gif
-image/jpeg
-image/pjpeg
-image/png
-image/svg+xml
-text/html
-video/mpeg
-video/quicktime
-video/x-ms-wmv
-video/x-msvideo
-*/
 	// move file to fb/group/id#
 	// if public access, link file to that public folder
 	$newfilepath = Cs_filebankHelpersCs_filebank::getItemFilePath( $file_obj->id, false );
@@ -267,8 +227,8 @@ video/x-msvideo
 //	$msg .= "<br />Moving file to $newfilepath";
 	
 	if ( ! @move_uploaded_file($uploaded_file["tmp_name"], $newfilepath ) )
-		// todo: IMPORTANT: db record exists for file that doesn't
-		return onUploadComplete( UploadResults::Error10 ); // todo: "failed to move file to $newfilepath" );
+		// todo: IMPORTANT: db record exists for file that doesn't - inconsistent state between DB & filesystem!
+		return onUploadComplete( UploadResults::Error10 ); // error: "failed to move file to $newfilepath" );
 		
 //	$search_result = Cs_filebankHelpersCs_filebank::getSearchResultFromObject( $file_obj );
 
@@ -290,12 +250,10 @@ video/x-msvideo
 	// show the upload result on the search page 
 	JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_cs_filebank&showid='.$file_obj->id, false));
 	
-	// todo: how to record "failed upload events"?
+	// idea: how to record "failed upload events"?
 	
-	// todo: how to handle session data for the upload and search forms upon re-displaying them
+	// still todo: how to handle session data for the upload and search forms upon re-displaying them
 	// when possible, allow category to be set the same as the previous upload to make it easier to upload a series of member/vehicle photos
-	
-	// display upload successful with the equivalent of the search results
 }
 
 $theModel = JModelLegacy::getInstance('uploads', 'Cs_filebankModel');

@@ -155,7 +155,6 @@ class Cs_filebankViewFilebankfiles extends JViewLegacy
 			'a.`icategory`' => JText::_('COM_CS_FILEBANK_FILEBANKFILES_ICATEGORY'),
 			'a.`iname`' => JText::_('COM_CS_FILEBANK_FILEBANKFILES_INAME'),
 			'a.`isize`' => JText::_('COM_CS_FILEBANK_FILEBANKFILES_ISIZE'),
-			'a.`itype`' => JText::_('COM_CS_FILEBANK_FILEBANKFILES_ITYPE'),
 			'a.`ictype`' => JText::_('COM_CS_FILEBANK_FILEBANKFILES_ICTYPE'),
 			'a.`iaccess`' => JText::_('COM_CS_FILEBANK_FILEBANKFILES_IACCESS'),
 			'a.`idescription`' => JText::_('COM_CS_FILEBANK_FILEBANKFILES_IDESCRIPTION'),

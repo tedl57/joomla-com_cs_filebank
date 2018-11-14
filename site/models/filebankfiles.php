@@ -36,17 +36,13 @@ class Cs_filebankModelFilebankfiles extends JModelList
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'by_username', 'a.by_username',
-				'date_added', 'a.date_added',
 				'idate', 'a.idate',
-				'last_updated', 'a.last_updated',
 				'icategory', 'a.icategory',
 				'iname', 'a.iname',
 				'isize', 'a.isize',
-				'itype', 'a.itype',
 				'ictype', 'a.ictype',
 				'iaccess', 'a.iaccess',
 				'archived', 'a.archived',
-				'email_notified', 'a.email_notified',
 				'idescription', 'a.idescription',
 			);
 		}
@@ -133,7 +129,7 @@ class Cs_filebankModelFilebankfiles extends JModelList
                 else
                 {
                     $search = $db->Quote('%' . $db->escape($search, true) . '%');
-				$query->where('( a.by_username LIKE ' . $search . '  OR  a.icategory LIKE ' . $search . '  OR  a.iname LIKE ' . $search . '  OR  a.itype LIKE ' . $search . '  OR  a.ictype LIKE ' . $search . '  OR  a.idescription LIKE ' . $search . ' )');
+				$query->where('( a.by_username LIKE ' . $search . '  OR  a.icategory LIKE ' . $search . '  OR  a.iname LIKE ' . $search . '  OR  a.ictype LIKE ' . $search . '  OR  a.idescription LIKE ' . $search . ' )');
                 }
             }
             
