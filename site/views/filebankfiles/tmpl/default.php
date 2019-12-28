@@ -138,7 +138,7 @@ function getWordList( $arr, $sep ) //{{{1
 }
 function doesMatchRecord( $row, $qs ) // idea: could be in trl/lib (got from memdb)
 {
-	// to done: kludge from old com_fb
+	// to done: kludge from old com_fb - use "showid=id" instead
 	/*
 	if ( strncmp( $qs, "fld_id_", 7  ) == 0 )
 	{

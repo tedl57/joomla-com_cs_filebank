@@ -285,7 +285,7 @@ class Cs_filebankHelpersCs_filebank
 		$url = "$baseurl&action=download";
 		$dl = "<a title='Click to download a copy of this file' href='$url' onclick=\"javascript: window.open('$url','','toolbar=yes,location=yes,status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=780,height=550&'); return false\">Download</a>" . self::getSpaces();
 	
-		$link = "<a title='Entry for this file' href='/fb?$id'>Entry</a>" . self::getSpaces();
+		$link = "<a title='Entry for this file' href='/file-bank?showid=$id'>Entry</a>" . self::getSpaces();
 		
 		if ( $public_link )
 		{
