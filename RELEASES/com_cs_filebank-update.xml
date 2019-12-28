@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<updates>
+   <update>
+      <name>CS File Bank</name>
+      <description>CS File Bank Component</description>
+      <element>com_cs_filebank</element>
+      <type>component</type>
+      <version>1.0.2</version>
+	  <infourl title="CS File Bank URL">http://creativespirits.org/products/joomla/com_cs_filebank-release-notes.html</infourl>
+      <downloads>
+		  <downloadurl type="full" format="zip">http://creativespirits.org/products/joomla/com_cs_filebank-1.0.2.zip</downloadurl>
+      </downloads>
+      <tags>
+         <tag>some-tag</tag>
+      </tags>
+      <maintainer>Creative Spirits</maintainer>
+      <maintainerurl>http://creativespirits.org</maintainerurl>
+      <section>some-section</section>
+      <targetplatform name="joomla" version="3.[0123456789]" />
+   </update>
+</updates>
