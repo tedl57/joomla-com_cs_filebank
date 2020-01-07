@@ -52,21 +52,6 @@ $hding = Cs_filebankHelpersCs_filebank::getComponentHeading();
 
 echo "$hding";
 
-//$app = JFactory::getApplication();
-//$data = $app->getUserState('com_cs_payments.payment.data', array());
-// it's fine to not have data here
-//if (empty($data))
-	//{
-//echo('<br />no data infoform');
-//}
-//else
-	//var_dump($data);
-
-//echo "POST:<pre>";var_dump($_POST);
-//echo "<br />FILES:";var_dump($_FILES);
-//echo "</pre>";
-
-
 $jinput = JFactory::getApplication()->input;
 $files = $jinput->files->get('jform', array(), 'raw');
 
@@ -87,7 +72,7 @@ if ( count($files == 1) && isset($files["iname"]) && is_array($files["iname"]))
 
 	 uploaded_file: array(5) {
 	  	["name"]=>
-			string(9) "yugen.jpg"
+			string(9) "abcde.jpg"
 		["type"]=>
 			string(10) "image/jpeg"
 		["tmp_name"]=>
@@ -170,11 +155,6 @@ array(2) {
 			return onUploadComplete( UploadResults::Error7 );
 	}
 
-//	$msg .= "<br />icategory='".$data["icategory"]."'";
-//	$msg .= "<br />newcategory='".$data["newcategory"]."'";
-//	$msg .= "<br />idescription='".$data["idescription"]."'";
-//	$msg .= "<br />iaccess='$iaccess'";
-
 	// normalize the category based on what the user specified on the upload form
 	$default_ctgy = "2sort";	// todo: a kludge because TRY AS I DID, i could not figure out how to make the Category list required
 	
@@ -219,19 +199,14 @@ array(2) {
 	if ( $file_obj->id == 0 )
 		return onUploadComplete( UploadResults::Error9 );
 
-//	$msg .= "<br />record inserted with id# " . $file_obj->id;
 	// move file to fb/group/id#
 	// if public access, link file to that public folder
 	$newfilepath = Cs_filebankHelpersCs_filebank::getItemFilePath( $file_obj->id, false );
-
-//	$msg .= "<br />Moving file to $newfilepath";
 	
 	if ( ! @move_uploaded_file($uploaded_file["tmp_name"], $newfilepath ) )
 		// todo: IMPORTANT: db record exists for file that doesn't - inconsistent state between DB & filesystem!
 		return onUploadComplete( UploadResults::Error10 ); // error: "failed to move file to $newfilepath" );
 		
-//	$search_result = Cs_filebankHelpersCs_filebank::getSearchResultFromObject( $file_obj );
-
 	// if the file is to be publically accessible, create the link
 
 	if ( $iaccess )
@@ -250,7 +225,7 @@ array(2) {
 	// show the upload result on the search page 
 	JFactory::getApplication()->redirect(JRoute::_('index.php?option=com_cs_filebank&showid='.$file_obj->id, false));
 	
-	// idea: how to record "failed upload events"?
+	// todo: idea: how to record "failed upload events"?
 	
 	// still todo: how to handle session data for the upload and search forms upon re-displaying them
 	// when possible, allow category to be set the same as the previous upload to make it easier to upload a series of member/vehicle photos
@@ -291,46 +266,29 @@ jQuery("#form-uploads").validate();
 			
 jQuery( document ).ready(function() {
 	console.log("ready!")
-	//if ( jQuery("input[name='jform\[amount\]']:checked").val() != -1 )
-		//jQuery("#cg-jform_otheramount").hide();
 	jQuery("#cg-jform_newcategory").hide();
 });
 
 jQuery('#jform_newcategory').focus(function(event) {
     setTimeout(function() {jQuery('#jform_newcategory').select();}, 0);
 });
-
-// select text when clicking on the new category text field
-//jQuery("#jform_newcategory").on("click", function () {
-//   jQuery(this).select();
-//});
 			
 jQuery("#jform_icategory").on('change', function (e) {
-    //var optionSelected = $("option:selected", this);
     var valueSelected = this.value;
     console.log(valueSelected);
 	if ( valueSelected == '-New Category-' )
 	{
-			//jQuery("#jform_newcategory").removeAttr("disabled");
 			jQuery("#jform_newcategory").val("Enter New Category");
 			jQuery("#cg-jform_newcategory").show();
 			jQuery("#jform_newcategory").focus();
     	    jQuery("#jform_newcategory").select();
-		//	console.log("removed disabled");
 	}
 	else
 	{
-			//jQuery("#jform_newcategory").attr("disabled",true);
 			jQuery("#jform_newcategory").val("");
 			jQuery("#cg-jform_newcategory").hide();
-		//	console.log("added disabled");
 	}
 });
-
-// prevent focus/selection from being removed when selection category changes
-//jQuery("#jform_icategory").mouseup(function(e){
-//    e.preventDefault();
-//});
 		
 </script>
 EOT;

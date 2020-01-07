@@ -138,14 +138,7 @@ function getWordList( $arr, $sep ) //{{{1
 }
 function doesMatchRecord( $row, $qs ) // idea: could be in trl/lib (got from memdb)
 {
-	// to done: kludge from old com_fb - use "showid=id" instead
-	/*
-	if ( strncmp( $qs, "fld_id_", 7  ) == 0 )
-	{
-		if ( $row["id"] == substr( $qs, 7 ) )
-			return true;
-	}
-	*/
+	// to done: kludge from old com_fb (fld_id_) - use "showid=id" instead
 	foreach( $row as $key => $val )
 	{
 		// exact match of a field if ( strcasecmp( $val, $qs ) == 0 )
@@ -169,7 +162,6 @@ function showSearchResults( $rows, $qs )	// show search results in google style
 		return;
 	}
 
-	//todosaveSession( $qs );
 	if ( $nrows != 1 )
 		$suf = "es";
 

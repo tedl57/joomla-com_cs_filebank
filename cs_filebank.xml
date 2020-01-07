@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.0" method="upgrade">
     <name>com_cs_filebank</name>
-    <creationDate>2018-11-05</creationDate>
-    <copyright>Creative Spirits (c) 2018</copyright>
+    <creationDate>2020-01-07</creationDate>
+    <copyright>Creative Spirits (c) 2020</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <author>Ted Lowe</author>
     <authorEmail>lists@creativespirits.org</authorEmail>
     <authorUrl>http://www.creativespirits.org</authorUrl>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <description>Allows users of a website to share files.</description>
     <install> <!-- Runs on install -->
         <sql>
